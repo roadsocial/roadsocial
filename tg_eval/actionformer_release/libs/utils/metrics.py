@@ -280,7 +280,7 @@ class ANETdetection(object):
         or (3) a python dict item with numpy arrays as the values
         """
 
-        preds = "/ssd_scratch/deepti/exp/tal_mAP_testing/dummy_PRED_thumosFormat.json"
+        # preds = "/ssd_scratch/deepti/tal_mAP_testing/dummy_PRED_thumosFormat.json"
         # preds="/ssd_scratch/deepti/TG_converted_to_seconds_for_all_models_thumosFormat/DolPhin7B_all_TG_QAs_gt_preds_noCoT_PRED_thumosFormat.json"
         # preds="/ssd_scratch/deepti/TG_converted_to_seconds_for_all_models_thumosFormat/DolPhin7B_Dashcam_all_TG_QAs_gt_preds_noCoT_PRED_thumosFormat.json"
         # preds="/ssd_scratch/deepti/TG_converted_to_seconds_for_all_models_thumosFormat/GPT-4.o-B_all_TG_QAs_gt_preds_noCoT_PRED_thumosFormat.json"
