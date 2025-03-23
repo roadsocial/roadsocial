@@ -1,0 +1,33 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index d7eec54..0fdc382 100755
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -26,7 +26,7 @@ standalone = [
+ 
+ train = [
+     "llava[standalone]",
+-    "numpy==1.26.1",
++    "numpy",
+     "open_clip_torch",
+     "fastapi",
+     "gradio==3.35.2",
+@@ -34,8 +34,8 @@ train = [
+     "numpy",
+     "requests",
+     "sentencepiece",
+-    "torch==2.1.2",
+-    "torchvision==0.16.2",
++    "torch",
++    "torchvision",
+     "uvicorn",
+     "wandb",
+     "deepspeed==0.14.2",
+@@ -51,7 +51,7 @@ train = [
+     "gradio_client==0.2.9",
+     "urllib3<=2.0.0",
+     "datasets==2.16.1",
+-    "pydantic==1.10.8",
++    "pydantic",
+     "timm",
+     "hf_transfer",
+     "opencv-python",

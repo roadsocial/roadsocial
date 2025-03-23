@@ -15,6 +15,16 @@ python3 -m pip install git+https://github.com/huggingface/transformers@21fac7abb
 python3 -m pip install qwen-vl-utils[decord]
 python3 -m pip install flash-attn==2.1.0 --no-build-isolation
 
+### llavaov dependencies
+git clone https://github.com/LLaVA-VL/LLaVA-NeXT.git
+cd LLaVA-NeXT
+git checkout 00b5b84ce8675f62eb7bb4587810366ab3770613
+### Note about patch: Original llavaov was tested on pytorch==2.1.2, For compatibility with qwen2vl pytorch version is not altered in this installation
+git apply ../llavaov_pyproject.toml.patch
+pip install -e ".[train]"
+pip install --upgrade httpx
+cd ..
+
 python3 -m pip install huggingface_hub
 ### gateway login for accessing RoadSocial dataset
 huggingface-cli login
@@ -25,5 +35,7 @@ cd ..
 
 python3 download_videos.py --qas_dir 'data/RoadSocial/sample/'
 python3 infer_on_roadsocial.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'Qwen2-VL-' --model_size 2 --gpu_id 2
+python3 infer_on_roadsocial.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'llava-ov' --model_size 0.5 --gpu_id 2
 python3 llmeval_roadsocial_tasks.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'Qwen2-VL-' --model_size 2
+python3 llmeval_roadsocial_tasks.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'llava-ov' --model_size 0.5
 ```

@@ -26,6 +26,8 @@ print(f"########## Script CONFIG: \nMODEL_PREFIX_VERSION - {model_prefix}{MODEL_
 ########## Libraries import
 if('Qwen2-VL' in model_prefix):
     from models.q2vl import *
+elif('llava-ov' in model_prefix):
+    from models.llavaov import *
 else:
     print("No Video LLM library imported for inference!!!")
     pass
