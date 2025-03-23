@@ -3,6 +3,7 @@
 __pycache__
 data/*
 output/*
+weights/*
 
 ######## ActionFormer .gitignore ########
 data/

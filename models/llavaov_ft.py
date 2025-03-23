@@ -16,8 +16,8 @@ class VideoLLM:
         self.MODEL_VERSION = movel_v #'7'
         self.max_frames_num = 32 #16
         self.conv_template = "qwen_1_5"
-        self.pretrained = "lmms-lab/llava-onevision-qwen2-"+self.MODEL_VERSION+"b-ov"
-        self.tokenizer, self.model, self.image_processor, self.max_length = load_pretrained_model(self.pretrained, None, 'llava_qwen', device_map='auto')
+        self.pretrained = movel_v
+        self.tokenizer, self.model, self.image_processor, self.max_length = load_pretrained_model(self.pretrained, None, 'llava_qwen', device_map='auto', overwrite_config={'tie_word_embeddings': False, 'use_cache': True, "vocab_size": 152064})
         self.model.eval()
 
     

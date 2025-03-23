@@ -33,9 +33,19 @@ cd data
 git clone https://huggingface.co/datasets/chiragp26/RoadSocial
 cd ..
 
+### download llava-ov-7B RoadSocial finetuned weights
+mkdir weights
+cd weights
+### required [git lfs](https://git-lfs.com/)
+git clone https://huggingface.co/chiragp26/LLAVA-OV-7B_RoadSocial_Finetuned
+cd ..
+
 python3 download_videos.py --qas_dir 'data/RoadSocial/sample/'
 python3 infer_on_roadsocial.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'Qwen2-VL-' --model_size 2 --gpu_id 2
 python3 infer_on_roadsocial.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'llava-ov' --model_size 0.5 --gpu_id 2
+python3 infer_on_roadsocial.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'llava-ov_ft' --model_size 'weights/LLAVA-OV-7B_RoadSocial_Finetuned' --gpu_id 2
+
 python3 llmeval_roadsocial_tasks.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'Qwen2-VL-' --model_size 2
 python3 llmeval_roadsocial_tasks.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'llava-ov' --model_size 0.5
+python3 llmeval_roadsocial_tasks.py --qas_dir 'data/RoadSocial/sample/' --model_prefix 'llava-ov_ft' --model_size 'weights/LLAVA-OV-7B_RoadSocial_Finetuned'
 ```
