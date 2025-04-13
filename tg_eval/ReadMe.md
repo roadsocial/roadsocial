@@ -6,7 +6,7 @@ The goal of this task is to evaluate Temporal Grounding (TG) Question-Answering 
 We utilize the official repository of [ActionFormer](https://github.com/happyharrycn/actionformer_release) for this task.
 
 ## Requirements
-The dependencies are the same as those specified in the official [ActionFormer](https://github.com/happyharrycn/actionformer_release) repository.
+The dependencies are the same as those specified in the official [ActionFormer](https://github.com/happyharrycn/actionformer_release) repository. Also, download the pretrained weights from the official repository of ActionFormer.
 
 ## Steps to Compute mAP
 
