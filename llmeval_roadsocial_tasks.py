@@ -28,10 +28,96 @@ import pandas as pd
 import json
 from tqdm import tqdm
 from glob import glob
+from temporal_gnd import create_pred_and_gt_actionformer, ANETdetection
 
-def get_temporal_grounding_mAP(gt_answer, pred_answer):
+# def get_temporal_grounding_mAP(gt_answer, pred_answer):
+#     ### mAP score eval
+#     return 0.0
+
+TG_dict = {}
+def get_temporal_grounding_mAP(TG_dict):
+    pred_actionformer_dict, gt_actionformer_dict = create_pred_and_gt_actionformer(TG_dict)
+    json.dump(gt_actionformer_dict, open("gt_actionformer.json", 'w')) # this is just to debug
+    json.dump(pred_actionformer_dict, open("pred_actionformer.json", 'w')) # this is just to debug
+    '''
+    # CORRECT FORMAT - GT in ActionFormer format
+    {
+        "version": "Thumos14-30fps",
+        "database": {
+            "1579042565822693381": {
+                "subset": "Test",
+                "duration": null,
+                "fps": null,
+                "annotations": [
+                    {
+                        "label": "RoadEvent",
+                        "segment": [
+                            0,
+                            12
+                        ],
+                        "label_id": 1
+                    }
+                ]
+            },
+            "1750151226946465887": {
+                "subset": "Test",
+                "duration": null,
+                "fps": null,
+                "annotations": [
+                    {
+                        "label": "RoadEvent",
+                        "segment": [
+                            3,
+                            12
+                        ],
+                        "label_id": 1
+                    }
+                ]
+            }
+        }
+    }
+    '''
+
+    '''
+    # CORRECT FORMAT - PRED in ActionFormer format
+    {
+        "database": {
+            "1579042565822693381": [
+                {
+                    "segment": [
+                        0,
+                        0
+                    ],
+                    "label_id": 1,
+                    "scores": 1.0
+                }
+            ],
+            "1750151226946465887": [
+                {
+                    "segment": [
+                        7,
+                        10
+                    ],
+                    "label_id": 1,
+                    "scores": 1.0
+                }
+            ]
+        }
+    }
+    '''
+
+    det_eval = ANETdetection(
+        gt_actionformer_dict, # RETURN GT JSON LOCATION: ./data/thumos/annotations/thumos14.json
+        "test", # RETURN STRING "test"
+        tiou_thresholds = [0.3,0.4, 0.5, 0.6, 0.7] # RETURN A LIST: [0.3 0.4 0.5 0.6 0.7]
+    )
+
+    average_mAP = det_eval.evaluate(pred_actionformer_dict)
+    
     ### mAP score eval
-    return 0.0
+    # load_qa_json
+    # get_g
+    return average_mAP
 
 ###### Predicted QAs evaluation
 allqas_src = glob(OUTPUT_QA_FOLDER+'/*.json')
@@ -86,13 +172,40 @@ for qa_path in tqdm(allqas_src):
                     else:
                         specific.append(qa_eval_score)
                         
-            elif(qa_task_key=='Grounding'):
-                ### get qa_eval_score from mAP score evaluation code
-                gt_a, pred_a = (qa_json['QAs'][each_qa_dict_itr]['A'], qa_json['QAs'][each_qa_dict_itr][pred_answer_key])
-                qa_eval_score = get_temporal_grounding_mAP(gt_a, pred_a)
-                final_result[qa_task_key] += qa_eval_score
-                final_result_counts[qa_task_key] += 1
-                pass
+            # elif(qa_task_key=='Grounding'):
+            #     ### get qa_eval_score from mAP score evaluation code
+            #     gt_a, pred_a = (qa_json['QAs'][each_qa_dict_itr]['A'], qa_json['QAs'][each_qa_dict_itr][pred_answer_key])
+            #     qa_eval_score = get_temporal_grounding_mAP(gt_a, pred_a)
+            #     final_result[qa_task_key] += qa_eval_score
+            #     final_result_counts[qa_task_key] += 1
+            #     pass
+
+            filename, gt_a, pred_a = (os.path.basename(qa_path), qa_json['QAs'][each_qa_dict_itr]['A'], qa_json['QAs'][each_qa_dict_itr][pred_answer_key])   
+            if str(filename) not in TG_dict.keys():
+                TG_dict[str(filename)] = {
+                    "gt_a": gt_a,
+                    "pred_a": pred_a
+                }
+
+json.dump(TG_dict, open("TG_all_qas.json, w")) # debug if it's correct format
+# CORRECT FORMAT
+'''
+{
+    "qa_1579042565822693381.json": {
+        "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+        "A": "The key road event is observed between 0 to 12 seconds.",
+        "pred_GPT-4.o-B": "I can't determine the exact time interval from the frames provided. If you can describe the key road event, I might be able to help further."
+    },
+    "qa_1750151226946465887.json": {
+        "Q": "Can you specify approximate time intervals where the key road event is observed in the video? (The time intervals should be specified in the format: xx to yy seconds, mm to nn seconds, etc.)",
+        "A": "The key road event is observed between 3 to 12 seconds and 19 to 29 seconds.",
+        "pred_GPT-4.o-B": "The key road event, which appears to be a collision, can be observed approximately during the following time intervals:\n\n- 7 to 10 seconds\n- 22 to 25 seconds\n\nThese intervals capture the moments leading up to and during the incident."
+    } ...
+}
+'''
+
+if(qa_task_key=='Grounding'):
+    get_temporal_grounding_mAP(TG_dict)
 
 ######## Overall scores aggregation
 all_score = []
