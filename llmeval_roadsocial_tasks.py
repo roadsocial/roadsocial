@@ -200,8 +200,8 @@ json.dump(TG_dict, open("TG_all_qas.json, w")) # debug if it's correct format
 }
 '''
 
-if(qa_task_key=='Grounding'):
-    average_mAP = get_temporal_grounding_mAP(TG_dict)
+# if(qa_task_key=='Grounding'):
+all_qas_average_mAP = get_temporal_grounding_mAP(TG_dict)
 
 ######## Overall scores aggregation
 all_score = []
@@ -218,7 +218,7 @@ final_result['ALL'] = float(np.mean(all_score))
 final_result['RT'] = float(np.mean(fci_score))
 final_result['Generic'] = float(np.mean(generic))
 final_result['Specific'] = float(np.mean(specific))
-final_result['Grounding'] = average_mAP
+final_result['Grounding'] = all_qas_average_mAP
 
 final_result = pd.DataFrame(final_result,index=[0]).round(1)
 final_result = final_result.loc[:, ['Where', 'Key Entities', 'Viewpoint', 'Description', 'Why', 'Consequence', 'Grounding', 'Advisory', 'Introspection', 'Counterfactual', 'Adversarial', 'Incompatible', 'ALL', 'RT', 'Generic', 'Specific']]
