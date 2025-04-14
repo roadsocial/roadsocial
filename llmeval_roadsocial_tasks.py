@@ -113,10 +113,6 @@ def get_temporal_grounding_mAP(TG_dict):
     )
 
     average_mAP = det_eval.evaluate(pred_actionformer_dict)
-    
-    ### mAP score eval
-    # load_qa_json
-    # get_g
     return average_mAP
 
 ###### Predicted QAs evaluation
@@ -188,8 +184,8 @@ for qa_path in tqdm(allqas_src):
                 }
 
 json.dump(TG_dict, open("TG_all_qas.json, w")) # debug if it's correct format
-# CORRECT FORMAT
 '''
+# CORRECT FORMAT
 {
     "qa_1579042565822693381.json": {
         "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
@@ -205,7 +201,7 @@ json.dump(TG_dict, open("TG_all_qas.json, w")) # debug if it's correct format
 '''
 
 if(qa_task_key=='Grounding'):
-    get_temporal_grounding_mAP(TG_dict)
+    average_mAP = get_temporal_grounding_mAP(TG_dict)
 
 ######## Overall scores aggregation
 all_score = []
@@ -222,6 +218,7 @@ final_result['ALL'] = float(np.mean(all_score))
 final_result['RT'] = float(np.mean(fci_score))
 final_result['Generic'] = float(np.mean(generic))
 final_result['Specific'] = float(np.mean(specific))
+final_result['Grounding'] = average_mAP
 
 final_result = pd.DataFrame(final_result,index=[0]).round(1)
 final_result = final_result.loc[:, ['Where', 'Key Entities', 'Viewpoint', 'Description', 'Why', 'Consequence', 'Grounding', 'Advisory', 'Introspection', 'Counterfactual', 'Adversarial', 'Incompatible', 'ALL', 'RT', 'Generic', 'Specific']]
