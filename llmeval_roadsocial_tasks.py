@@ -183,7 +183,7 @@ for qa_path in tqdm(allqas_src):
                     "pred_a": pred_a
                 }
 
-json.dump(TG_dict, open("TG_all_qas.json, w")) # debug if it's correct format
+json.dump(TG_dict, open("TG_all_qas.json", 'w')) # debug if it's correct format
 '''
 # CORRECT FORMAT
 {
