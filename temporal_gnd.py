@@ -99,8 +99,8 @@ def create_pred_and_gt_actionformer(preds_and_gt):
     gt_actionformer_dict = {"database": {}, "version": "Thumos14-30fps"}
     for question in preds_and_gt:
 
-        gt = preds_and_gt[question]['A']
-        pred = preds_and_gt[question]['pred_GPT-4.o-B']
+        gt = preds_and_gt[question]['gt_a']
+        pred = preds_and_gt[question]['pred_a']
         gt_interval = extract_time_values(gt)
         pred_interval = extract_time_values(pred)
 
