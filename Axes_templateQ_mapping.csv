@@ -1,0 +1,26 @@
+,Unnamed: 0,Q-no.,Axes-no.,Task_names,Q_subtask_names,Q_subtask_tags
+0,0,0,9,Viewpoint,Viewpoint,merged_camera.json
+1,1,1,2,Description,RoadEvent_Type,road_events_new.json
+2,2,2,5,Where,Country_location,country.json
+3,3,3,5,Where,Specific_location,dummy.json
+4,4,4,5,Where,Road_type,merged_road_type.json
+5,5,5,5,Where,Time_of_day,merged_timeofday.json
+6,6,6,5,Where,Weather_conditions,merged_weather.json
+7,7,7,1,Key Entities,Key_Entities,dummy.json
+8,8,8,1,Key Entities,Visual_characteristics,dummy.json
+9,9,9,2,Description,What/Actions_of_key_entities,road_entities_actions.json
+10,10,10,11,Grounding,Specific_Action_timestamps,dummy.json
+11,11,11,3,Why,Intention,dummy.json
+12,12,12,3,Why,Cause,dummy.json
+13,13,13,6,Introspection,Introspection,dummy.json
+14,14,14,4,Consequence,Consequences/Casualities/Damage,dummy.json
+15,15,15,2,Description,Traffic_Violation,merged_violation.json
+16,16,16,8,Advisory,Post-event/Disciplinary_measures,dummy.json
+17,17,17,8,Advisory,Road_Safety_Advisory,dummy.json
+18,18,18,10,Counterfactual,Counterfactual,dummy.json
+19,19,19,11,Grounding,Temporal_Grounding,dummy.json
+20,20,20,11,Grounding,Temporal_Grounding,dummy.json
+21,21,-1,-1,UNK,UNK,dummy.json
+22,22,21,12,Adversarial,Adversarial,dummy.json
+23,23,22,13,Incompatible,Incompatible,dummy.json
+24,24,-2,2,Description,Description,dummy.json
